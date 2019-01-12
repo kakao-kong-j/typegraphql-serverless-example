@@ -1,28 +1,32 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+// import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 import { ObjectType, Field, ID } from "type-graphql";
-
+import {
+  attribute,
+  hashKey,
+  table
+} from "@aws/dynamodb-data-mapper-annotations";
 @ObjectType()
-@Entity()
-export class User extends BaseEntity {
+@table("User")
+export class User {
   @Field(() => ID)
-  @PrimaryGeneratedColumn()
-  id!: number;
+  @hashKey()
+  id!: string;
 
   @Field()
-  @Column()
+  @attribute()
   firstName!: string;
 
   @Field()
-  @Column()
+  @attribute()
   lastName!: string;
 
   @Field()
-  @Column("text", { unique: true })
+  @attribute()
   email!: string;
 
   @Field()
   name!: string;
 
-  @Column()
+  @attribute()
   password!: string;
 }

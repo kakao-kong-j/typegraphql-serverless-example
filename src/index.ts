@@ -2,13 +2,12 @@ import "reflect-metadata";
 import { ApolloServer } from "apollo-server-express";
 import * as Express from "express";
 import { buildSchema } from "type-graphql";
-import { createConnection } from "typeorm";
+import * as dotenv from "dotenv";
 
 import { RegisterResolver } from "./modules/user/Register";
 
+dotenv.config({ path: "../.env" });
 const main = async () => {
-  await createConnection();
-
   const schema = await buildSchema({
     resolvers: [RegisterResolver]
   });
