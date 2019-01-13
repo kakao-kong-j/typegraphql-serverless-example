@@ -2,17 +2,18 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
+    "allowSyntheticDefaultImports": true,
     "lib": ["dom", "es6", "es2017", "esnext.asynciterable"],
-    "sourceMap": true,
+    "sourceMap": false,
     "outDir": "./dist",
     "moduleResolution": "node",
     "declaration": false,
     "strict": true,
     "baseUrl": ".",
-    "rootDir": "src",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "esModuleInterop": true
   },
   "exclude": ["node_modules"],
-  "include": ["./src/**/*.tsx", "./src/**/*.ts"]
+  "include": ["./src/**/*.tsx", "./src/**/*.ts", "./typings/**/index.d.ts"]
 }

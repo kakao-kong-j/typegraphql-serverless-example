@@ -7,8 +7,8 @@ import {
   FieldResolver,
   Root
 } from "type-graphql";
-import * as bcrypt from "bcryptjs";
-import * as uuid from "uuid/v4";
+import bcrypt from "bcryptjs";
+import uuid from "uuid/v4";
 
 import { User } from "../../entity/User";
 import { DynamoDB } from "aws-sdk/clients/all";
@@ -24,6 +24,18 @@ export class RegisterResolver {
   async name(@Root() parent: User) {
     return `${parent.firstName} ${parent.lastName}`;
   }
+  // @FieldResolver()
+  // async test(@Root() parent: User) {
+  //   const { firstName, lastName, email } = parent;
+  //   return {
+  //     id: uuid(),
+  //     firstName,
+  //     lastName,
+  //     email,
+  //     name: firstName + lastName,
+  //     password: "*****"
+  //   };
+  // }
 
   @Mutation(() => User)
   async register(
@@ -38,7 +50,7 @@ export class RegisterResolver {
       firstName,
       lastName,
       email,
-      name: firstName + lastName,
+      name: "abcd",
       password: hashedPassword
     };
 
