@@ -1,4 +1,4 @@
-import { DataMapper } from '@aws/dynamodb-data-mapper';
+import { DataMapper } from "@aws/dynamodb-data-mapper";
 import {
   Resolver,
   Query,
@@ -6,19 +6,27 @@ import {
   Arg,
   FieldResolver,
   Root
-} from 'type-graphql';
-import bcrypt from 'bcryptjs';
-import uuid from 'uuid/v4';
+} from "type-graphql";
+import bcrypt from "bcryptjs";
+import uuid from "uuid/v4";
 
-import { User } from '../../entity/User';
-import { DynamoDB } from 'aws-sdk/clients/all';
-import { UserInput } from '../../type/userInput';
+import { User } from "../../entity/User";
+import { UserInput } from "../../type/userInput";
+import { ddb } from "../../common/aws";
+
+const mapper = new DataMapper({
+  client: ddb
+});
 
 @Resolver(User)
 export class CreateUserResolver {
   @Query(() => String)
   async hello() {
-    return 'Hello World!';
+    return "Hello World!";
+  }
+  @Query(() => User)
+  async user(@Arg("id") id: string): Promise<User> {
+    return await mapper.get(Object.assign(new User(), { id }));
   }
 
   @FieldResolver()
@@ -27,7 +35,7 @@ export class CreateUserResolver {
   }
 
   @Mutation(() => User)
-  async createUser(@Arg('input') userInput: UserInput): Promise<User> {
+  async createUser(@Arg("input") userInput: UserInput): Promise<User> {
     const { email, firstName, lastName, password } = userInput;
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = {
@@ -37,14 +45,6 @@ export class CreateUserResolver {
       email,
       password: hashedPassword
     };
-
-    const mapper = new DataMapper({
-      client: new DynamoDB({
-        region: 'ap-northeast-2',
-        accessKeyId: process.env.aws_access_key_id,
-        secretAccessKey: process.env.aws_secret_access_key
-      })
-    });
 
     const toSave = Object.assign(new User(), user);
     await mapper.put(toSave);
