@@ -6,13 +6,11 @@ import dotenv from "dotenv";
 
 // import serverless from "serverless-http";
 
-import { CreateUserResolver } from "./modules/user/createUser";
-
 const app = Express();
 
 dotenv.config({ path: "../.env" });
 const main = async () => {
-  const port = process.env.PORT || 4000;
+  const port = process.env.PORT || 3000;
   const schema = await buildSchema({
     resolvers: [__dirname + "/modules/**/*.ts"]
   });
