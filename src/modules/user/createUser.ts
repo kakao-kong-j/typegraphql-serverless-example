@@ -10,7 +10,7 @@ import {
 import bcrypt from "bcryptjs";
 import uuid from "uuid/v4";
 
-import { User } from "../../entity/User";
+import { User } from "../../model/User";
 import { UserInput } from "../../type/userInput";
 import { ddb } from "../../common/aws";
 
