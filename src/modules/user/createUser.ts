@@ -25,7 +25,7 @@ export class CreateUserResolver {
     return "Hello World!";
   }
   @Query(() => User)
-  async user(@Arg("id") id: string): Promise<User> {
+  async getUser(@Arg("id") id: string): Promise<User> {
     return await mapper.get(Object.assign(new User(), { id }));
   }
 

@@ -1,18 +1,18 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server-express";
 import Express from "express";
-import { buildSchema, formatArgumentValidationError } from "type-graphql";
+import { formatArgumentValidationError, buildSchemaSync } from "type-graphql";
 import dotenv from "dotenv";
 
-// import serverless from "serverless-http";
+const serverless = require("serverless-http");
 
 const app = Express();
 
 dotenv.config({ path: "../.env" });
 const main = async () => {
   const port = process.env.PORT || 3000;
-  const schema = await buildSchema({
-    resolvers: [__dirname + "/modules/**/*.ts"]
+  const schema = await buildSchemaSync({
+    resolvers: [__dirname + "/modules/**/*.ts", __dirname + "/modules/**/*.js"]
   });
 
   const apolloServer = new ApolloServer({
@@ -27,5 +27,4 @@ const main = async () => {
 
 main();
 
-module.exports.handler = app;
-// module.exports.handler = serverless(app);
+module.exports.handler = serverless(app);
