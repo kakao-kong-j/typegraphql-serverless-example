@@ -1,17 +1,16 @@
 import { ApolloServer } from "apollo-server-express";
 import Express from "express";
 import { formatArgumentValidationError, buildSchemaSync } from "type-graphql";
-import dotenv from "dotenv";
+import { CreateUserResolver } from "src/modules/user/createUser";
 
 const serverless = require("serverless-http");
 
 const app = Express();
-dotenv.config({ path: "../.env" });
 
 const main = async () => {
   const port = process.env.PORT || 3000;
   const schema = await buildSchemaSync({
-    resolvers: [__dirname + "/modules/**/*.ts", __dirname + "/modules/**/*.js"]
+    resolvers: [__dirname + "/modules/**/*.js", __dirname + "/modules/**/*.ts"]
   });
 
   const apolloServer = new ApolloServer({
