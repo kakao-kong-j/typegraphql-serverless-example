@@ -20,10 +20,6 @@ const mapper = new DataMapper({
 
 @Resolver(User)
 export class CreateUserResolver {
-  @Query(() => String)
-  async hello() {
-    return "Hello World!";
-  }
   @Query(() => User)
   async getUser(@Arg("id") id: string): Promise<User> {
     return await mapper.get(Object.assign(new User(), { id }));
@@ -45,9 +41,6 @@ export class CreateUserResolver {
       email,
       password: hashedPassword
     };
-
-    const toSave = Object.assign(new User(), user);
-    await mapper.put(toSave);
-    return toSave;
+    return await mapper.put(Object.assign(new User(), user));
   }
 }
