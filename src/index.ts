@@ -10,7 +10,7 @@ const app = Express();
 const main = async () => {
   const port = process.env.PORT || 3000;
   const schema = await buildSchemaSync({
-    resolvers: [__dirname + "/modules/**/*.js", __dirname + "/modules/**/*.ts"]
+    resolvers: [__dirname + "/modules/**/*.js"]
   });
 
   const apolloServer = new ApolloServer({
