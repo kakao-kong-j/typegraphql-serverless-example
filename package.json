@@ -12,8 +12,10 @@
     "class-validator": "^0.9.1",
     "express": "^4.16.4",
     "graphql": "^14.0.2",
+    "mysql": "^2.16.0",
     "serverless-http": "^1.8.0",
     "type-graphql": "^0.16.0",
+    "typeorm": "^0.2.16",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

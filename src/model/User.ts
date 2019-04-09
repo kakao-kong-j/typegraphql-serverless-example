@@ -1,31 +1,30 @@
 import { ObjectType, Field, ID } from "type-graphql";
-import {
-  attribute,
-  hashKey,
-  table
-} from "@aws/dynamodb-data-mapper-annotations";
+import { Entity, PrimaryColumn, Column } from "typeorm";
+
 @ObjectType()
-@table("User")
+@Entity()
 export class User {
   @Field(() => ID)
-  @hashKey()
+  @PrimaryColumn()
   id!: string;
 
   @Field()
-  @attribute()
+  @Column()
   firstName!: string;
 
   @Field()
-  @attribute()
+  @Column()
   lastName!: string;
 
   @Field()
-  @attribute()
+  @Column()
   email!: string;
 
   @Field()
+  @Column()
   name!: string;
 
-  @attribute()
+  @Field()
+  @Column()
   password!: string;
 }

@@ -1,28 +1,29 @@
-import { DataMapper } from "@aws/dynamodb-data-mapper";
 import {
   Resolver,
   Query,
   Mutation,
   Arg,
   FieldResolver,
-  Root
+  Root,
+  Ctx
 } from "type-graphql";
 import bcrypt from "bcryptjs";
 import uuid from "uuid/v4";
 
 import { User } from "../../model/User";
 import { UserInput } from "../../type/userInput";
-import { ddb } from "../../common/aws";
-
-const mapper = new DataMapper({
-  client: ddb
-});
+import { getConnection } from "typeorm";
 
 @Resolver(User)
 export class CreateUserResolver {
   @Query(() => User)
   async getUser(@Arg("id") id: string): Promise<User> {
-    return await mapper.get(Object.assign(new User(), { id }));
+    const connection = await getConnection();
+    const user = await connection.getRepository(User).findOne(id);
+    if (!user) {
+      throw Error("user is not exist");
+    }
+    return user;
   }
 
   @FieldResolver()
@@ -32,6 +33,7 @@ export class CreateUserResolver {
 
   @Mutation(() => User)
   async createUser(@Arg("input") userInput: UserInput): Promise<User> {
+    const connection = await getConnection();
     const { email, firstName, lastName, password } = userInput;
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = {
@@ -41,6 +43,6 @@ export class CreateUserResolver {
       email,
       password: hashedPassword
     };
-    return await mapper.put(Object.assign(new User(), user));
+    return await connection.getRepository(User).save(user);
   }
 }
