@@ -4,8 +4,9 @@ provider:
   name: aws
   runtime: nodejs8.10
   stage: dev
-  region: ap-northeast-2
-  profile: jinho
+  region: cn-north-1
+  profile: china
+  endpointType: regional
 
 functions:
   app:
@@ -17,3 +18,4 @@ functions:
 plugins:
   - serverless-offline
   - serverless-plugin-typescript
+  - serverless-plugin-aws-cn-principal
